@@ -1,0 +1,18 @@
+{
+  "id": "12345",
+  "name": "view",
+  "timestamp": 1234567890,
+  "context": "s-909a633c",
+  "agent": {
+    "id": "user-11",
+    "type": "user"
+  },
+  "element": {
+    "id": "asset-15",
+    "type": "book"
+  }
+}
+
+
+
+
