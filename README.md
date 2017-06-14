@@ -21,9 +21,9 @@ Examples:
 
 There are 3 main elements in Hale:
 
-  - **Agent**: these are entities that actions stem from. They don't have to represent real world entities, or physical actions. For instance, a person rating a hotel.
+  - **Agent**: these are entities that actions stem from. They don't have to represent real world entities, or physical ones. For instance, a person rating a hotel.
   - **Event**: these are triggered when an agent performs actions over elements. From the previous example, the rating of the hotel would be the event.
-  - **Element**: these represent an abstract entity upon which an event is performed. In our example, the it would be the hotel being rated
+  - **Element**: these represent an abstract entity the event relates to. In our example, the it would be the hotel being rated
 
 ### Data Format
 
@@ -49,11 +49,11 @@ See example [here](assets/files/event.json)
 
 ## Setting things up
 
-  - Download, and install neo4j
-  - Download the APOC plugin
-  - Create indexes in neo4j
-  - Ingest data into your neo4j database
-  - Run queries
+  - Download, and install neo4j [TODO]
+  - Download the APOC plugin [TODO]
+  - Create indexes in neo4j [TODO]
+  - Ingest data into your neo4j database [TODO]
+  - Run queries [TODO]
 
 ## Roadmap
 
