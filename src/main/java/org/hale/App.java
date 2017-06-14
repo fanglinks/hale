@@ -1,10 +1,12 @@
 package org.hale;
 
+import org.hale.commons.io.Sink;
 import org.hale.commons.io.console.ConsoleSink;
 import org.hale.commons.io.neo4j.Neo4jSessionFactory;
 import org.hale.weaver.services.Query;
 import org.hale.weaver.services.QueryRunner;
-import org.hale.weaver.services.domain.ElementBasedRanking;
+import org.hale.weaver.services.domain.SimilarAgentRanking;
+import org.hale.weaver.services.domain.SimilarElementRanking;
 import org.neo4j.ogm.session.Session;
 
 /**
@@ -16,8 +18,14 @@ public class App {
     public static void main(String[] args){
         Session session =  Neo4jSessionFactory.getInstance().getNeo4jSession();
 
-        Query query = new ElementBasedRanking("product", "item-402", "user", "(.*?)", 10);
+        Sink consoleSink = new ConsoleSink();
+
+        Query query = new SimilarElementRanking("product", "item-402", "user", "(.*?)", 10);
         QueryRunner queryRunner = new QueryRunner(session);
-        queryRunner.run(query, new ConsoleSink());
+        queryRunner.run(query, consoleSink);
+
+        query = new SimilarAgentRanking("user", "user-17525", "product", "(.*?)", 10);
+        queryRunner = new QueryRunner(session);
+        queryRunner.run(query, consoleSink);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by guilherme on 5/27/17.
  * hale
  */
-public class ElementBasedRanking implements Query<EntityCount> {
+public class SimilarElementRanking implements Query<EntityCount> {
 
     private String elementType;
     private String elementId;
@@ -17,7 +17,7 @@ public class ElementBasedRanking implements Query<EntityCount> {
     private String eventType;
     private int limit;
 
-    public ElementBasedRanking(String elementType, String elementId, String agentType, String eventType, int limit) {
+    public SimilarElementRanking(String elementType, String elementId, String agentType, String eventType, int limit) {
         this.elementType = elementType;
         this.elementId = elementId;
         this.agentType = agentType;
@@ -28,6 +28,7 @@ public class ElementBasedRanking implements Query<EntityCount> {
     @Override
     public String getTemplate() {
 
+        //TODO: use limit in first step?
         String template = "" +
                 "MATCH (agent :Entity {type: {agentType}})-[:AGENT_EVENT]->(event)-[:EVENT_ELEMENT]->(element :Entity {type: {elementType}, id: {elementId}})" +
                 "\nWHERE event.type =~ {eventType}" +
