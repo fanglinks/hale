@@ -51,7 +51,7 @@ See example [here](assets/files/event.json)
 
   - [Download, and install neo4j](https://neo4j.com/docs/operations-manual/3.1/installation/)
   - [Download the APOC plugin](https://github.com/neo4j-contrib/neo4j-apoc-procedures)
-  - [Create indexes in neo4j](assets/cql/indexes)
+  - [Create indexes in neo4j](assets/cql/indexes.cql)
   - [Ingest data into your neo4j database](doc/IngestData.md)
   - Run queries [TODO]
 
