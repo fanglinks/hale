@@ -49,10 +49,10 @@ See example [here](assets/files/event.json)
 
 ## Setting things up
 
-  - Download, and install neo4j [TODO]
-  - Download the APOC plugin [TODO]
-  - Create indexes in neo4j [TODO]
-  - Ingest data into your neo4j database [TODO]
+  - [Download, and install neo4j](https://neo4j.com/docs/operations-manual/3.1/installation/)
+  - [Download the APOC plugin](https://github.com/neo4j-contrib/neo4j-apoc-procedures)
+  - [Create indexes in neo4j](assets/cql/indexes)
+  - [Ingest data into your neo4j database](doc/IngestData.md)
   - Run queries [TODO]
 
 ## Roadmap
