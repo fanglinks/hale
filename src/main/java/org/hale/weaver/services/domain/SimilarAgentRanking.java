@@ -15,13 +15,15 @@ public class SimilarAgentRanking implements Query<EntityCount> {
     private String agentId;
     private String agentType;
     private String eventType;
+    private int skip;
     private int limit;
 
-    public SimilarAgentRanking(String agentType, String agentId, String elementType, String eventType, int limit) {
+    public SimilarAgentRanking(String agentType, String agentId, String elementType, String eventType, int skip, int limit) {
         this.agentType = agentType;
         this.agentId = agentId;
         this.elementType = elementType;
         this.eventType = eventType;
+        this.skip = skip;
         this.limit = limit;
     }
 
@@ -36,6 +38,7 @@ public class SimilarAgentRanking implements Query<EntityCount> {
                 "\nWHERE otherEvent.type =~ {eventType} AND event <> otherEvent AND agent <> otherAgent" +
                 "\nRETURN otherAgent.id AS id, COUNT(otherEvent) AS count" +
                 "\nORDER BY count DESC" +
+                "\nSKIP {skip}" +
                 "\nLIMIT {limit}";
         return template;
     }
@@ -47,6 +50,7 @@ public class SimilarAgentRanking implements Query<EntityCount> {
         params.put("eventType", this.eventType);
         params.put("elementType", this.elementType);
         params.put("agentId", this.agentId);
+        params.put("skip", this.skip);
         params.put("limit", this.limit);
         return params;
     }

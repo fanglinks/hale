@@ -24,9 +24,6 @@ public class EntityRepository {
         this.setSession(session);
     }
 
-    private static final int DEPTH_LISEntity = 0;
-    private static final int DEPTH_ENTITY = 1;
-
     private Session session;
 
     protected void setSession(Session session){

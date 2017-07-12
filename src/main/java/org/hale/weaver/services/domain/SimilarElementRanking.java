@@ -15,20 +15,20 @@ public class SimilarElementRanking implements Query<EntityCount> {
     private String elementId;
     private String agentType;
     private String eventType;
+    private int skip;
     private int limit;
 
-    public SimilarElementRanking(String elementType, String elementId, String agentType, String eventType, int limit) {
+    public SimilarElementRanking(String elementType, String elementId, String agentType, String eventType, int skip, int limit) {
         this.elementType = elementType;
         this.elementId = elementId;
         this.agentType = agentType;
         this.eventType = eventType;
+        this.skip = skip;
         this.limit = limit;
     }
 
     @Override
     public String getTemplate() {
-
-        //TODO: use limit in first step?
         String template = "" +
                 "MATCH (agent :Entity {type: {agentType}})-[:AGENT_EVENT]->(event)-[:EVENT_ELEMENT]->(element :Entity {type: {elementType}, id: {elementId}})" +
                 "\nWHERE event.type =~ {eventType}" +
@@ -37,6 +37,7 @@ public class SimilarElementRanking implements Query<EntityCount> {
                 "\nWHERE otherEvent.type =~ {eventType} AND event <> otherEvent AND element <> otherElement" +
                 "\nRETURN otherElement.id AS id, COUNT(otherEvent) AS count" +
                 "\nORDER BY count DESC" +
+                "\nSKIP {skip}" +
                 "\nLIMIT {limit}";
         return template;
     }
@@ -48,12 +49,13 @@ public class SimilarElementRanking implements Query<EntityCount> {
         params.put("eventType", this.eventType);
         params.put("elementType", this.elementType);
         params.put("elementId", this.elementId);
+        params.put("skip", this.skip);
         params.put("limit", this.limit);
         return params;
     }
 
     @Override
     public EntityCount parseResult(Map<String, Object> result) {
-        return new EntityCount((String)result.get("id"), (Long)result.get("count"));
+        return new EntityCount((String) result.get("id"), (Long) result.get("count"));
     }
 }
