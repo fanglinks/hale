@@ -1,11 +1,13 @@
 package org.hale.weaver.repository.domain;
 
+import org.hale.commons.Page;
 import org.hale.commons.types.Constants;
-import org.hale.commons.types.domain.Entity;
+import org.hale.commons.types.basic.Entity;
 import org.neo4j.ogm.cypher.BooleanOperator;
 import org.neo4j.ogm.cypher.ComparisonOperator;
 import org.neo4j.ogm.cypher.Filter;
 import org.neo4j.ogm.cypher.Filters;
+import org.neo4j.ogm.cypher.query.Pagination;
 import org.neo4j.ogm.session.Session;
 
 import java.util.Arrays;
@@ -72,12 +74,29 @@ public class EntityRepository {
 
     /**
      *
+     * @param Page
+     * @return
+     */
+    public Iterable<Entity> findAll(Page Page){
+
+        Pagination pagination = new Pagination(Page.getNumber(), Page.getSize());
+
+        return session.loadAll(getEntityType(),
+                pagination);
+    }
+
+    /**
+     *
      * @param type entity type
      * @return all entities in database of type provided
      */
-    public Iterable<Entity> findAll(String type){
+    public Iterable<Entity> findAll(String type, Page Page){
+
+        Pagination pagination = new Pagination(Page.getNumber(), Page.getSize());
+
         return session.loadAll(getEntityType(),
-                new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, type));
+                new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, type),
+                pagination);
     }
 
     /**

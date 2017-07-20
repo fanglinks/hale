@@ -1,6 +1,6 @@
 package org.hale.commons.io;
 
-import org.hale.commons.types.domain.Event;
+import org.hale.commons.types.basic.Event;
 
 /**
  * Created on 2017-03-22

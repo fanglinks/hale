@@ -1,15 +1,16 @@
 package org.hale.weaver.repository.domain;
 
+import org.hale.commons.Page;
 import org.hale.commons.types.Constants;
-import org.hale.commons.types.domain.Entity;
-import org.hale.commons.types.domain.Event;
+import org.hale.commons.types.basic.Event;
+import org.neo4j.ogm.cypher.BooleanOperator;
 import org.neo4j.ogm.cypher.ComparisonOperator;
 import org.neo4j.ogm.cypher.Filter;
+import org.neo4j.ogm.cypher.Filters;
+import org.neo4j.ogm.cypher.query.Pagination;
 import org.neo4j.ogm.session.Session;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 2017-04-29
@@ -36,84 +37,80 @@ public class EventRepository {
     }
 
     /**
-     * Searches for actions
+     * Retrieves specified event instance from database
+     *
+     * @param e Event object
+     * @return
+     */
+    public Event get(Event e) {
+
+        Filter filterType = new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, e.getType());
+        Filter filterId = new Filter(Constants.FIELD_ID, ComparisonOperator.EQUALS, e.getId());
+        filterId.setBooleanOperator(BooleanOperator.AND);
+
+        Filters filters = new Filters(Arrays.asList(filterType, filterId));
+
+        Collection<Event> events = session.loadAll(getEntityType(), filters, 1);
+
+        Iterator<Event> iterator = events.iterator();
+
+        return iterator.next();
+    }
+
+    /**
+     * Searches for given Event instance in database
      *
      * @param e
      * @return
      */
     public Event find(Event e) {
-        String queryTemplate =
-                String.format("MATCH (agent :%s {type: {srcType}, id: {srcId}})-[:%s]->" +
-                                "(event :%s)-[:%s]->(element :%s {type: {destType}, id: {destId}})" +
-                                "\nRETURN event",
-                        Constants.ENTITY, Constants.REL_START, Constants.EVENT, Constants.REL_END, Constants.ENTITY);
+        Filter filterType = new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, e.getType());
+        Filter filterId = new Filter(Constants.FIELD_ID, ComparisonOperator.EQUALS, e.getId());
+        filterId.setBooleanOperator(BooleanOperator.AND);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("srcType", e.getAgent().getType());
-        params.put("srcId", e.getAgent().getId());
-        params.put("type", e.getType());
-        params.put("destType", e.getElement().getType());
-        params.put("destId", e.getElement().getId());
+        Filters filters = new Filters(Arrays.asList(filterType, filterId));
 
-        Iterator<Event> iterator = session.query(getEntityType(), queryTemplate, params).iterator();
+        Collection<Event> events = session.loadAll(getEntityType(), filters, 1);
+
+        Iterator<Event> iterator = events.iterator();
 
         return iterator.hasNext() ? iterator.next() : null;
     }
 
     /**
-     * Searches for actions of a given type, tied to an agent
+     * Searches for an Event in the database based on Id
      *
-     * @param agent
-     * @param type
+     * @param id
      * @return
      */
-    public Iterable<Event> findAllByAgent(Entity agent, String type) {
-        String queryTemplate =
-                String.format("MATCH (agent :%s {type: {srcType}, id: {srcId}})-[:%s]->(event :%s)-[:%s]->" +
-                                "()" +
-                                "\nRETURN event",
-                        Constants.ENTITY, Constants.REL_START, Constants.EVENT, Constants.REL_END);
+    public Event findById(String id) {
+        Filter filterId = new Filter(Constants.FIELD_ID, ComparisonOperator.EQUALS, id);
+        filterId.setBooleanOperator(BooleanOperator.AND);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("srcType", agent.getType());
-        params.put("srcId", agent.getId());
-        params.put("type", type);
+        Filters filters = new Filters(Arrays.asList(filterId));
 
-        return session.query(getEntityType(), queryTemplate, params);
+        Collection<Event> events = session.loadAll(getEntityType(), filters, 1);
+
+        Iterator<Event> iterator = events.iterator();
+
+        return iterator.hasNext() ? iterator.next() : null;
     }
 
-    /**
-     * Searches for actions of a given type, tied to an element
-     *
-     * @param element
-     * @param type
-     * @return
-     */
-    public Iterable<Event> findAllByElement(Entity element, String type) {
-        String queryTemplate =
-                String.format("MATCH ()-[:%s]->(event :%s)-[:%s]->" +
-                                "(element :%s {type: {destType}, id: {destId}})" +
-                                "\nRETURN event",
-                        Constants.REL_START, Constants.EVENT, Constants.REL_END, Constants.ENTITY);
+    public Iterable<Event> findAll(Page Page){
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("destType", element.getType());
-        params.put("destId", element.getId());
-        params.put("type", type);
+        Pagination pagination = new Pagination(Page.getNumber(), Page.getSize());
 
-        return session.query(getEntityType(), queryTemplate, params);
-    }
-
-
-    /**
-     * Searches for all actions of a given type
-     *
-     * @param type entity type
-     * @return all entities in database of type provided
-     */
-    public Iterable<Event> findAllByType(String type) {
         return session.loadAll(getEntityType(),
-                new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, type));
+                pagination, 1);
+    }
+
+    public Iterable<Event> findAll(String type, Page Page){
+
+        Pagination pagination = new Pagination(Page.getNumber(), Page.getSize());
+
+        return session.loadAll(getEntityType(),
+                new Filter(Constants.FIELD_TYPE, ComparisonOperator.EQUALS, type),
+                pagination, 1);
     }
 
     /**

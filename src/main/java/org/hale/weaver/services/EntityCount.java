@@ -1,4 +1,4 @@
-package org.hale.weaver.services.domain;
+package org.hale.weaver.services;
 
 /**
  * Created by guilherme on 6/4/17.

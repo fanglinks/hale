@@ -2,22 +2,22 @@ package org.hale.weaver.services.meta;
 
 import org.hale.weaver.services.Query;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by guilherme on 5/27/17.
  * hale
  */
-public class TypeLabelsQuery implements Query<String> {
+public class ListEventTypeQuery implements Query<String> {
 
-    public TypeLabelsQuery() {
+    public ListEventTypeQuery() {
     }
 
     @Override
     public String getTemplate() {
         String template = "" +
-                "MATCH (n)" +
-                "\nWHERE NOT (:Entity)-[:AGENT_EVENT]->(n :Event)-[:EVENT_ELEMENT]->(:Entity)" +
+                "MATCH (:Entity)-[:AGENT_EVENT]->(n :Event)-[:EVENT_ELEMENT]->(:Entity)" +
                 "\nRETURN DISTINCT (n.type) AS type" +
                 "\nORDER BY type";
         return template;

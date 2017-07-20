@@ -5,8 +5,8 @@ import org.hale.commons.io.console.ConsoleSink;
 import org.hale.commons.io.neo4j.Neo4jSessionFactory;
 import org.hale.weaver.services.Query;
 import org.hale.weaver.services.QueryRunner;
-import org.hale.weaver.services.domain.SimilarAgentRanking;
-import org.hale.weaver.services.domain.SimilarElementRanking;
+import org.hale.weaver.services.similarity.SimilarAgentRanking;
+import org.hale.weaver.services.similarity.SimilarElementRanking;
 import org.hale.weaver.services.meta.TypeLabelsQuery;
 import org.neo4j.ogm.session.Session;
 

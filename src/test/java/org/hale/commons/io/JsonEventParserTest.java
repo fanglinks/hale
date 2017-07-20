@@ -3,7 +3,7 @@ package org.hale.commons.io;
 import org.json.JSONException;
 import org.junit.Test;
 import org.hale.commons.io.json.JsonEventParser;
-import org.hale.commons.types.domain.Event;
+import org.hale.commons.types.basic.Event;
 
 import java.util.Arrays;
 

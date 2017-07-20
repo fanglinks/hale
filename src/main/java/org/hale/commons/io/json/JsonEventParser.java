@@ -2,8 +2,8 @@ package org.hale.commons.io.json;
 
 import org.json.JSONObject;
 import org.hale.commons.io.EventParser;
-import org.hale.commons.types.domain.Entity;
-import org.hale.commons.types.domain.Event;
+import org.hale.commons.types.basic.Entity;
+import org.hale.commons.types.basic.Event;
 
 import java.util.ArrayList;
 import java.util.List;

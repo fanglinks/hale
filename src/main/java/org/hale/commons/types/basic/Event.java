@@ -1,4 +1,4 @@
-package org.hale.commons.types.domain;
+package org.hale.commons.types.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hale.commons.types.Constants;

@@ -1,6 +1,7 @@
-package org.hale.weaver.services.domain;
+package org.hale.weaver.services.similarity;
 
 import org.hale.weaver.services.Query;
+import org.hale.weaver.services.EntityCount;
 
 import java.util.HashMap;
 import java.util.Map;

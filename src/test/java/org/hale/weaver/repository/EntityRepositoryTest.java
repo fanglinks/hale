@@ -2,7 +2,7 @@ package org.hale.weaver.repository;
 
 import org.junit.Test;
 import org.hale.RepositoryTest;
-import org.hale.commons.types.domain.Entity;
+import org.hale.commons.types.basic.Entity;
 import org.hale.weaver.repository.domain.EntityRepository;
 
 import static junit.framework.TestCase.assertFalse;

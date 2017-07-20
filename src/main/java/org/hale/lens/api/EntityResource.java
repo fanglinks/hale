@@ -1,13 +1,13 @@
 package org.hale.lens.api;
 
+import org.hale.commons.Page;
 import org.hale.commons.io.collection.ListSink;
 import org.hale.commons.io.neo4j.Neo4jSessionFactory;
-import org.hale.commons.types.domain.Entity;
+import org.hale.commons.types.basic.Entity;
 import org.hale.lens.io.EntityDTO;
 import org.hale.weaver.repository.domain.EntityRepository;
 import org.hale.weaver.services.QueryRunner;
 import org.hale.weaver.services.meta.TypeLabelsQuery;
-import org.json.JSONObject;
 import org.neo4j.ogm.session.Session;
 
 import javax.ws.rs.*;
@@ -26,23 +26,20 @@ import java.util.Map;
  */
 @Path("/entities")
 public class EntityResource {
+    //Note: no properties to update, so no update support
 
     @GET
-    @Path("/{type}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find(@PathParam("id") String id,
-                       @PathParam("type") String type) {
+    public Response get(@DefaultValue("0") @QueryParam("page") int pageNumber,
+                        @DefaultValue("10") @QueryParam("pageSize") int pageSize){
 
         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
         EntityRepository entityRepository = new EntityRepository(session);
 
-        Entity e = entityRepository.find(new Entity(id, type));
+        Page page = new Page(pageNumber, pageSize);
+        Iterable<Entity> entities = entityRepository.findAll(page);
 
-        if (e != null){
-            return Response.ok(e).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return Response.ok(entities).build();
     }
 
     @POST
@@ -59,21 +56,59 @@ public class EntityResource {
         return Response.ok(entityRepository.find(e)).build();
     }
 
+    @GET
+    @Path("/search")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response search(@QueryParam("type") String type,
+                           @DefaultValue("0") @QueryParam("page") int pageNumber,
+                           @DefaultValue("10") @QueryParam("pageSize") int pageSize){
+        Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
+        EntityRepository entityRepository = new EntityRepository(session);
+
+        Page page = new Page(pageNumber, pageSize);
+
+        Iterable<Entity> entities = entityRepository.findAll(type, page);
+
+        return Response.ok(entities).build();
+    }
+
+    @GET
+    @Path("/{type}/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response find(@PathParam("id") String id,
+                         @PathParam("type") String type) {
+
+        Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
+        EntityRepository entityRepository = new EntityRepository(session);
+
+        Entity e = entityRepository.find(new Entity(id, type));
+
+        if (e != null){
+            return Response.ok(e).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 
     @DELETE
     @Path("/{type}/{id}")
     public Response delete(@PathParam("id") String id,
-                       @PathParam("type") String type) {
+                           @PathParam("type") String type) {
 
         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
         EntityRepository entityRepository = new EntityRepository(session);
         Entity e = entityRepository.find(new Entity(id, type));
-        if (e != null) entityRepository.delete(e);
 
-        return Response.ok().build();
+        if (e != null) {
+            entityRepository.delete(e);
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
+    @Path("/metadata")
     @Produces(MediaType.APPLICATION_JSON)
     public Response metadata(){
         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
@@ -85,15 +120,11 @@ public class EntityResource {
 
         LocalDateTime dateTime = LocalDateTime.now();
 
-
-        Map<String, Object> metadata = new HashMap<>();
-        metadata.put("types", labels);
         Map<String, Object> response = new HashMap<>();
-        response.put("metadata", metadata);
+        response.put("types", labels);
         response.put("date", dateTime.toLocalDate().toString());
         response.put("time", dateTime.toLocalTime().toString());
 
         return Response.ok(response).build();
-
     }
 }

@@ -1,4 +1,4 @@
-package org.hale.commons.types.domain;
+package org.hale.commons.types.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hale.commons.types.Constants;
@@ -7,7 +7,7 @@ import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by guilherme on 2017-03-20.
@@ -24,6 +24,12 @@ public class Entity {
 
     @Index
     private String type;
+
+//    @Relationship(type = Constants.REL_START, direction = Relationship.OUTGOING)
+//    private Set<Event> agentEvents;
+//
+//    @Relationship(type = Constants.REL_END, direction = Relationship.INCOMING)
+//    private Set<Event> elementEvents;
 
     public Entity(){
 
@@ -57,6 +63,22 @@ public class Entity {
     public void setType(String type) {
         this.type = type;
     }
+
+//    public Set<Event> getAgentEvents() {
+//        return agentEvents;
+//    }
+//
+//    public void setAgentEvents(Set<Event> agentEvents) {
+//        this.agentEvents = agentEvents;
+//    }
+//
+//    public Set<Event> getElementEvents() {
+//        return elementEvents;
+//    }
+//
+//    public void setElementEvents(Set<Event> elementEvents) {
+//        this.elementEvents = elementEvents;
+//    }
 
     @Override
     public boolean equals(Object o) {
