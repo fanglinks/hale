@@ -1,5 +1,6 @@
 package org.hale.commons.types.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hale.commons.types.Constants;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class Event {
 
     @GraphId
+    @JsonIgnore
     private Long graphId;
 
     @Index
@@ -46,6 +48,16 @@ public class Event {
 
     public Event(Entity agent, String type, Entity element, Long timestamp, Double weight, String context) {
         this();
+        this.agent = agent;
+        this.element = element;
+        this.timestamp = timestamp;
+        this.weight = weight;
+        this.context = context;
+        this.type = type;
+    }
+
+    public Event(String id, Entity agent, String type, Entity element, Long timestamp, Double weight, String context) {
+        this.id = id;
         this.agent = agent;
         this.element = element;
         this.timestamp = timestamp;

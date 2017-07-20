@@ -49,6 +49,7 @@ def main(n_users, n_products, n_events, start_date, end_date, output):
             event_type, weight, context = get_event()
 
             event = {
+                'id': str(uuid.uuid4()),
                 'type': event_type,
                 'weight': weight,
                 'timestamp': int(random_timestamp_within(start_date, end_date, '%Y-%m-%d', np.random.uniform(0, 1))),
@@ -73,9 +74,9 @@ if __name__ == '__main__':
     parser.add_argument('--nusers', type=int, required=True, help='Number of users to generate')
     parser.add_argument('--nproducts', type=int, required=True, help='Number of users to generate')
     parser.add_argument('--nevents', type=int, required=True, help='Number of events to generate')
-    parser.add_argument('--start_date', type=str, required=True, help='Starting date')
-    parser.add_argument('--end_date', type=str, required=True, help='End date')
-    parser.add_argument('--output', type=str, required=True, help='End date')
+    parser.add_argument('--start_date', type=str, required=True, help='Starting date, format: yyyy-mm-dd')
+    parser.add_argument('--end_date', type=str, required=True, help='End date, format: yyyy-mm-dd')
+    parser.add_argument('--output', type=str, required=True, help='Output file, e.g. data.json')
 
     args = parser.parse_args()
 

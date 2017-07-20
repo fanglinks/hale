@@ -3,7 +3,10 @@
 FILE=$1
 OUT=$2
 
-rm ${OUT}
+if [ -f ${OUT} ]; then
+    rm ${OUT}
+fi
+
 touch ${OUT}
-echo "agent_type,agent_id,element_type,element_id,type,timestamp,weight,context" >> ${OUT}
-cat ${FILE} | jq -r '. | [.agent.type, .agent.id, .element.type, .element.id, .type, .timestamp, .weight, .context] | @csv' >> ${OUT}
+echo "id,agentType,agentId,elementType,elementId,type,timestamp,weight,context" >> ${OUT}
+cat ${FILE} | jq -r '. | [.id, .agent.type, .agent.id, .element.type, .element.id, .type, .timestamp, .weight, .context] | @csv' >> ${OUT}

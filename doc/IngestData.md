@@ -32,9 +32,9 @@ optional arguments:
                         Number of users to generate
   --nevents NEVENTS     Number of events to generate
   --start_date START_DATE
-                        Starting date
-  --end_date END_DATE   End date
-  --output OUTPUT       End date
+                        Starting date, format: yyyy-mm-dd
+  --end_date END_DATE   End date, format: yyyy-mm-dd
+  --output OUTPUT       Output file, e.g. data.json
 
 ```
 
@@ -56,18 +56,19 @@ To learn more about `jq`, you can check out their [documentation](https://stedol
 ## CSV Import
 
 Now we are ready to import our data into Neo4j.
-To import data, you can go to the Neo4j command line shell, and run the following query:
+To import data, we can use the *neo4j-shell*. You might need to enable shell access in the neo4j configuration file.
+Also, by default, all files are expected to be under an *import* directory under the neo4j directory, for security reasons.
+So you can copy your csv file over, or disable this restriction. Once we have shell access, we run the following query:
 
 ```
 USING PERIODIC COMMIT 300
 
 LOAD CSV WITH HEADERS FROM "file:///path/to/in_datafile.csv" AS e
 
-MERGE (agent :Entity {type: e.agent_type, id: e.agent_id})
-MERGE (element :Entity {type: e.element_type, id: e.element_id})
-CREATE (event {type: e.type, weight: toFloat(e.weight), timestamp: toInt(e.timestamp), context: e.context})
-CREATE (agent)-[:AGENT_EVENT]->(event)-[:EVENT_ELEMENT]->(element);
-```
+MERGE (agent :Entity {type: e.agentType, id: e.agentId})
+MERGE (element :Entity {type: e.elementType, id: e.elementId})
+CREATE (event :Event {id: e.id, type: e.type, weight: toFloat(e.weight), timestamp: toInt(e.timestamp), context: e.context})
+CREATE (agent)-[:AGENT_EVENT]->(event)-[:EVENT_ELEMENT]->(element);```
 
 Where `in_datafile.csv` is the file you generated with the CSV data.
 Note that you have to use these labels, and relationship type, but you can add additional labels to the nodes.
