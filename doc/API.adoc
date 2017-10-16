@@ -1,0 +1,155 @@
+= REST resources of Hale
+0.1-SNAPSHOT
+
+== `GET entities`
+
+=== Request
+_No body_ + 
+*Query Param*: `page`, `int` + 
+*Query Param*: `pageSize`, `int` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`java.lang.Iterable<org.hale.commons.types.basic.Entity>`) + 
+
+== `POST entities`
+
+=== Request
+*Content-Type*: `application/json` + 
+*Request Body*: (`org.hale.lens.io.EntityDTO`) + 
+`{"id":"string","type":"string"}` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (``) + 
+
+== `GET entities/metadata`
+
+=== Request
+_No body_ + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`java.util.Map<java.lang.String, java.lang.Object>`) + 
+
+== `GET entities/search`
+
+=== Request
+_No body_ + 
+*Query Param*: `page`, `int` + 
+*Query Param*: `pageSize`, `int` + 
+*Query Param*: `type`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`java.lang.Iterable<org.hale.commons.types.basic.Entity>`) + 
+
+== `GET entities/{type}/{id}`
+
+=== Request
+_No body_ + 
+*Path Param*: `id`, `java.lang.String` + 
+*Path Param*: `type`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`org.hale.commons.types.basic.Entity`) + 
+`{"id":"string","type":"string"}` + 
+
+==== `404 Not Found`
+
+== `DELETE entities/{type}/{id}`
+
+=== Request
+_No body_ + 
+*Path Param*: `id`, `java.lang.String` + 
+*Path Param*: `type`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `\*/*`
+
+==== `200 OK`
+
+==== `404 Not Found`
+
+== `GET events`
+
+=== Request
+_No body_ + 
+*Query Param*: `page`, `int` + 
+*Query Param*: `pageSize`, `int` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`java.lang.Iterable<org.hale.commons.types.basic.Event>`) + 
+
+== `GET events/metadata`
+
+=== Request
+_No body_ + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`java.util.Map<java.lang.String, java.lang.Object>`) + 
+
+== `GET events/search`
+
+=== Request
+_No body_ + 
+*Query Param*: `agentId`, `java.lang.String` + 
+*Query Param*: `agentType`, `java.lang.String` + 
+*Query Param*: `elementId`, `java.lang.String` + 
+*Query Param*: `elementType`, `java.lang.String` + 
+*Query Param*: `page`, `int` + 
+*Query Param*: `pageSize`, `int` + 
+*Query Param*: `type`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (Collection of `org.hale.commons.types.basic.Event`) + 
+`[{"agent":{"id":"string","type":"string"}],"context":"string","element":{"id":"string","type":"string"},"id":"string","timestamp":0,"type":"string","weight":0.0}` + 
+
+== `GET events/{id}`
+
+=== Request
+_No body_ + 
+*Path Param*: `id`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+*Response Body*: (`org.hale.commons.types.basic.Event`) + 
+`{"agent":{"id":"string","type":"string"},"context":"string","element":{"id":"string","type":"string"},"id":"string","timestamp":0,"type":"string","weight":0.0}` + 
+
+==== `404 Not Found`
+
+== `DELETE events/{id}`
+
+=== Request
+_No body_ + 
+*Path Param*: `id`, `java.lang.String` + 
+
+=== Response
+*Content-Type*: `application/json`
+
+==== `200 OK`
+
+==== `404 Not Found`
+
