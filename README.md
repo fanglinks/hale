@@ -61,8 +61,3 @@ See [API.adoc](doc/API.adoc). To create doc run:
 ```
 $ bash sbin/doc.sh
 ```
-
-## Roadmap
-
-  - Graph algorithms for collaborative filtering
-  - Content based similarity in elastic search, using text
