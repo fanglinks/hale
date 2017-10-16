@@ -53,11 +53,14 @@ See example [here](assets/files/event.json)
   - [Download the APOC plugin](https://github.com/neo4j-contrib/neo4j-apoc-procedures)
   - [Create indexes in neo4j](assets/cql/indexes.cql)
   - [Ingest data into your neo4j database](doc/IngestData.md)
-  - Run queries [TODO]
 
-## Getting API Doc
+## API Doc
 
+See [API.adoc](doc/API.adoc). To create doc run:
 
+```
+$ bash sbin/doc.sh
+```
 
 ## Roadmap
 
